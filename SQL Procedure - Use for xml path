@@ -1,0 +1,26 @@
+
+Make the the search results(Num >1) to a string.
+
+create proc pro_replace
+   @SQLLike nvarchar(100)--own search
+as
+   declare @string nvarchar(1000);
+   --search the database contains your search. [Demo_Sutdent][Demo_Class][Demo_Teacher]
+   set @string = select  '['+name+']' from sysobjects where type='u' and  Name like '%'+@SLLike +'%'  for xml path('');
+   set @string =  STUFF(@string,1,1,'') --make the fisrt char to ''
+   set @string = REPLACE(@string,'][',',');   --repalce the middle "][" into ',' 
+   set @string = SUBSTRING(@string,0,len(@string)); --substring the last char
+   select @string;  --get:  Demo_Sutdent,Demo_Class,Demo_Teacher
+   
+ Example:
+ --The first:
+ Name
+ Demo_Student
+ Demo_Class
+ Demo_Teacher
+ 
+--The Second
+--[Demo_Sutdent][Demo_Class][Demo_Teacher]
+
+--The Last
+--Demo_Sutdent,Demo_Class,Demo_Teacher
