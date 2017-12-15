@@ -1,0 +1,53 @@
+The Split Function in SQLSERVER DataBase
+Input the totalstring,accomplish your own demand.
+
+--drop procedure proc_split
+create procedure proc_Split
+	@string nvarchar(500) --the split source string
+as  
+	  declare @AccountString varchar(500) = @string; --local variable,foreach this value
+	  declare @SplitChar varchar(50) = ',';--split according to this char,you can make it as a input variable
+    declare @Account varchar(500)  --the string after split
+    declare @SplitCharPos int      --the index of the split char
+    set @SplitCharPos = 0;         --default index
+    select @SplitCharPos = CHARINDEX(@SplitChar, @AccountString)  --the first index  
+
+    if @SplitCharPos = 0        
+		begin   
+				select @Account = @AccountString    --if the first index is 0,the source string is all.  
+				select @Account as Account          
+				----------------------------your own business------------------------ 
+			   exec(  'delete ' +   @Account);
+		end 
+	else   
+        begin   
+            while @SplitCharPos <> 0           --the first index 
+            begin   
+                select @SplitCharPos = CHARINDEX(@SplitChar, @AccountString)     
+                if @SplitCharPos = 0   
+					begin   
+						select @Account = @AccountString   
+					end   
+                else   
+                    begin   
+                    select @Account = LEFT(@AccountString, @SplitCharPos - 1)   
+                    select @AccountString = RIGHT(@AccountString, len(@AccountString)-len(@Account) - 1) 
+                    end   
+                 ------------------------------ your own business-------------------------    
+                   -- PRINT  @AccountString;
+                   exec(  'delete ' +   @Account);
+            end 
+            ------------------------------ your own business------------------------  
+            --PRINT @AccountString
+            exec(  'delete ' +   @AccountString);
+		end 
+    
+   
+  for examble:
+  Should empty the tables :Demo_Student  Demo_Classes Demo_Teacher
+  Only exec this procedure:
+     exec proc_Split 'Demo_Student,Demo_Classes,Demo_Teacher'
+   
+    
+    
+    
