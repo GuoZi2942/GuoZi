@@ -1,0 +1,17 @@
+       $(document).on("pagebeforecreate", "#homePage", function () {
+            alert("pagebeforecreate");
+        });
+        $(document).on("pagecreate", "#homePage", function () {
+            alert("pagecreate");
+        });
+        $(document).on("pageinit", "#homePage", function () {
+            alert("pageinit");
+        });
+        $(document).on("pagebeforeshow", "#homePage", function () {
+            alert("pagebeforeshow");
+        });
+        $(document).on("pageshow", "#homePage", function () {
+            alert("pageshow");
+        });
+      
+so, to make sure the event shuld be finnished before pageshow,you can play events in 'pageinit' event.
